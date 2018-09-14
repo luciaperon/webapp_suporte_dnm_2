@@ -1,0 +1,83 @@
+    --- PRESENCIAL
+    select distinct
+           replace(replace(replace(replace(a.alucpf,'-',''),Chr(39),''),';',''),'.','') as CPF_ALUNO
+          ,replace(replace(replace(a.aluemail,'-',''),Chr(39),''),';','') as EMAIL_ALUNO
+          ,replace(replace(replace(a.alunome,'-',''),Chr(39),''),';','') as NOME_ALUNO
+          ,a.alucod as COD_ALUNO
+          ,'OLIM-'||b.camcod as COD_CAMPUS
+          ,b.camdesc as DESC_CAMPUS
+          ,e.espcod as COD_ESP
+          ,e.espdesc as DESC_ESP
+          ,dm.tmacod as COD_TMA
+          ,dm.discod as COD_DISC
+          ,d.disdesc as DESC_DISC
+          ,dm.dimetapa as ETAPA_DISC_GRADE
+          ,let.pelano||let.pelsem as ETAPA_DISCIPLINA_MINISTRADA
+    ----------------------- Validações Filtros DNM
+          ,ce.desc_esp as FLAG_ELEGIVEL
+    ----------------------- informações Studiare
+          ,'O' as SISTEMA
+          ,hs.id_unidade_negocio as ID
+          ,hs.nome_unidade_negocio as UN_NEGOCIO
+          ,hs.id_regional as REGIONAL
+          ,hs.nome_campus as H_CAMPUS
+          ,hs.id_campus as ID_CAMPUS
+          ,ce.id_curso_studiare as CURSO_STUDIARE
+          ,vd.tipo_vinculo as TIPO
+          ,decode(asit.asisituacao,'C','Cursando'
+                                  ,'D','Desistente'
+                                  ,'E','Matrícula cancelada'
+                                  ,'F','Formado'
+                                  ,'N','Não rematriculado'
+                                  ,'R','Transferido'
+                                  ,'T','Matrícula trancada'
+                                  ,'X','Expulso') as SIT_ALUNO
+           ,decode(ad.adisituacao,'A','Aprovado'
+                                 ,'C','Cursando'
+                                 ,'D','Desistente'
+                                 ,'E','Necessita fazer exame'
+                                 ,'F','Reprovado por falta'
+                                 ,'M','Reprovado por média'
+                                 ,'R','Reprovado por média e falta') as SIT_DISC
+
+
+    from discmini dm
+    ----------------------- JOINS Estruturais -----------------------------------
+    join discipli d on d.discod = dm.discod
+    join turma t on dm.tmacod = t.tmacod
+    join especial e on e.espcod = t.espcod
+                    and e.esptipo = 'G'
+    join campus b on  b.camcod = e.espcampus
+    join perileti let on let.pelcod = dm.pelcod
+    join iuniempresa i on i.iunicodempresa = dm.iunicodempresa
+    left join departam dep on dep.depcod = d.depcod
+    join alundisc ad on ad.discod = dm.discod
+                     and ad.tmacod = dm.tmacod
+                     and ad.dimtip = dm.dimtip
+    join alunos a on a.alucod = ad.alucod
+    left join v_alunsituatual asit on asit.alucod = ad.alucod
+                                   and asit.espcod = ad.espcod
+    -- valida alunos trocados
+    left join especial ea on ea.espcod = ad.espcod
+                          and ea.esptipo = 'G'
+
+    ----------------------------- JOINS DNM -----------------------------------------
+                          ---- HIERARQUIA Studiare
+    left join robertoalmeida.dnm_tb_hierarquia_studiare hs on hs.cod_campus = 'OLIM-'||b.camcod
+                          ---- Filtro Cursos e Séries DNM
+    left join robertoalmeida.dnm_tb_cursos_elegiveis ce on ce.desc_esp = e.espdesc
+                                         and ce.etapa_ministrada = let.pelano||let.pelsem
+    left join victorrocha.tb_input_vinculo_disciplina vd on vd.disc_turma = dm.tmacod
+                                                         and vd.discod = to_char(dm.discod)
+    ----------------------------- FILTROS -----------------------------------------
+    where let.pelano||let.pelsem = 20181 -- Valida Periodo Letivo
+    and d.distipo = 'N' -- Só disciplinas Normais
+    and e.espcod not in (116
+                        ,3155
+                        ,3702
+                        ,13141
+                        ,801
+                        ,802) -- MED, FGV, etce
+    and ce.desc_esp is not null -- Curso Elegível
+
+    and a.alucpf = '

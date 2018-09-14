@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<html xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>Suporte DNM</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+<form action="/signup/" method="post">
+
+<center>
+    <br><br>
+    <center><h1>Suporte DNM</h1></center>
+     <br>
+     <table>
+
+         <br><br>
+
+        {% csrf_token %}
+          {{ form.as_table }}
+
+     </table>
+
+    <br><br> <input type="submit" class="w3-button w3-black" value="Enviar" />
+
+</form>
+</p>
+</div>
+            </div>
+        </div>
+    </body>
+</html>
