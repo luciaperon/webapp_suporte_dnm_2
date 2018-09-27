@@ -71,9 +71,9 @@ def signupform(request):
                               ,dm.tmacod as TURMA
                               ,e.espdesc as DESC_CURSO
                                ,dm.dimetapa as SEMESTRE
-                              ,CASE WHEN rd.discod = to_char(dm.discod) then rd.discod else to_char(dm.discod) END as COD_DISC
+                              ,CASE WHEN rd.discod||rd.vinculo = to_char(dm.discod)||'DNM' or rd.discod||rd.vinculo = 'ACO'||'DNM'
+                               then rd.discod else to_char(dm.discod) END as COD_DISC
                               ,d.disdesc as DESC_DISC
-
                               ,let.pelano||let.pelsem as PERIODO
                         ----------------------- Validações Filtros DNM
                               --,ce.desc_esp as FLAG_ELEGIVEL
@@ -424,33 +424,34 @@ def signupform(request):
                     left join v_alunsituatual asit on asit.alucod = ad.alucod
                     and asit.espcod = ad.espcod
                     where  dm.tmacod||-dm.discod in
-                    ('10120151A-100399',
-                        '11220141A-10104',
-                        '11220142A-10104',
-                        '11420141A-10104',
-                        '11420142A-10315',
-                        '1520151A-64387',
-                        '1520152A-64387',
-                        '1620151A-64387',
-                        '1620152A-64387',
-                        '1620161A-64387',
-                        '1620162A-64387',
-                        '20920151A-9177',
-                        '20920152A-9177',
-                        '21020151A-9177',
-                        '21020152A-9177',
-                        '21720141A-7943',
-                        '21820141A-9430',
-                        '21820142A-9430',
-                        '2520142A-100377',
-                        '2520151A-100377',
-                        '2620151A-64482',
-                        '4420172A-64435',
-                        '4820161A-88408',
-                        '4820162A-88408',
-                        '5020171A-10217',
-                        '5020172A-10217',
-                        '40520151A-9084')
+                    ('10120151A-100399'
+                    ,'11220141A-158372'
+                    ,'11420142A-10315'
+                    ,'11720151A-10155'
+                    ,'1520152A-64387'
+                    ,'1620151A-64387'
+                    ,'1620152A-64387'
+                    ,'1620161A-64387'
+                    ,'1620162A-64387'
+                    ,'20920151A-9177'
+                    ,'20920152A-9177'
+                    ,'21020151A-9177'
+                    ,'21020152A-9177'
+                    ,'21720141A-7943'
+                    ,'21820142A-9430'
+                    ,'2520151A-100377'
+                    ,'2620151A-64482'
+                    ,'4420172A-64435'
+                    ,'4820161A-88408'
+                    ,'4820162A-88408'
+                    ,'5020171A-10217'
+                    ,'40520151A-9084'
+                    ,'1520151A-64387'
+                    ,'2520142A-100377'
+                    ,'5020172A-10217'
+                    ,'11420141A158372'
+                    ,'21820141A-9430'
+                    ,'11220142A-158372')
                         and a.alucpf = '{}'
                         and let.pelano||let.pelsem = {} """
                            ]
