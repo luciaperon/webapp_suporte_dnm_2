@@ -398,6 +398,7 @@ def signupform(request):
                   ----------------------- informações Studiare
                   ,'O' as SISTEMA
                   ,'DNM' as TIPO
+                  ,T2.anonotaprova as NOTA_DNM
                   from discmini dm
                   ----------------------- JOINS Estruturais -----------------------------------
                   join discipli d on d.discod = dm.discod
@@ -423,6 +424,13 @@ def signupform(request):
                     join alunos a on a.alucod = ad.alucod
                     left join v_alunsituatual asit on asit.alucod = ad.alucod
                     and asit.espcod = ad.espcod
+                     -- NOTA DNM
+                        left join adisnota t2 on t2.alucod = ad.alucod
+                        and t2.espcod = ad.espcod
+                        and t2.discod = ad.discod
+                        and t2.tmacod = ad.tmacod
+                        and t2.dimtip = ad.dimtip
+                        and t2.tprcod = 'T2'
                     where  dm.tmacod||-dm.discod in
                     ('10120151A-100399'
                     ,'11220141A-158372'
@@ -452,6 +460,7 @@ def signupform(request):
                     ,'11420141A158372'
                     ,'21820141A-9430'
                     ,'11220142A-158372')
+                    
                         and a.alucpf = '{}'
                         and let.pelano||let.pelsem = {} """
                            ]
