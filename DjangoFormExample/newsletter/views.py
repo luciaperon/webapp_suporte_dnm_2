@@ -236,10 +236,14 @@ def signupform(request):
                               on GEMATRDISC.gmdi_cd = GEDISCOFER.gmdi_cd
                               inner join geprod.gediscipli gediscipli
                               on gediscipli.gdis_cd = GEMATRDISC.Gdis_Cd
-                              inner join edprod.ednotadisc ednotadisc
-                              on ednotadisc.cuun_cd = edmatric.cuun_cd
-                              inner join edprod.edprojeto edprojeto
-                              on edprojeto.proj_cd = edcurhist.proj_cd
+                            inner join edprod.eddiscipli eddiscipli
+                            on eddiscipli.gdis_cd = gediscipli.gdis_cd
+                            inner join edprod.ednotadisc ednotadisc
+                            on ednotadisc.cuun_cd = edmatric.cuun_cd
+                            and ednotadisc.edis_cd = eddiscipli.edis_cd
+                             and ednotadisc.sitd_cd = 'DS'
+                            inner join edprod.edprojeto edprojeto
+                            on edprojeto.proj_cd = edcurhist.proj_cd
 
                             -- Join com a tabela de Cursos participantes
 
@@ -269,7 +273,7 @@ def signupform(request):
                               and edcurhist.tpof_cd in ('1', '2') --Modalidade: (1-100%online | 2-Semipresencial)
                               and upper(gediscipli.gdis_ds) like '%SEMI%'
                               and edcurhist.cuhi_tp_oferta = 'R' --Oferta Regular
-                              and ednotadisc.sitd_cd = 'DS' --Situação da Matricula (DS=Disciplina da Serie)
+                              --and ednotadisc.sitd_cd = 'DS' --Situação da Matricula (DS=Disciplina da Serie)
                               --and edmatric.ealu_cd = 12892451 --Filtra Matricula
                               --and edmatric.proj_cd = '32' -- Projeto(ano/Periodo)
                   ------------ FILTROS ALUNOS DNM -------------------------------------------------
@@ -278,7 +282,8 @@ def signupform(request):
                               --and cs.proj_cd is not null
                               -------------- FILTROS TIME ------------------------------------------------------
                               --and gecron.gect_cd in (1,3) -- 1- Portfolio, 3 - Leitura (1 e 3 DNM), 22- Avaliacao Proficiencia
-                              --and gecron.gecr_bo_media = 'S'
+                              and gecron.gecr_bo_media IN ('S', 'N')
+                              and gecronlanc.gela_bo_cancelado = 'N'
                               and edaluno.ealu_nr_cpf = '{}'
                               and edmatric.emat_nr_ano || edmatric.emat_tp_semestre = {} """,
 
