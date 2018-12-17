@@ -281,7 +281,7 @@ def signupform(request):
                               --and hierarquia.id_regional is not null
                               --and cs.proj_cd is not null
                               -------------- FILTROS TIME ------------------------------------------------------
-                              --and gecron.gect_cd in (1,3) -- 1- Portfolio, 3 - Leitura (1 e 3 DNM), 22- Avaliacao Proficiencia
+                              and gecron.gect_cd = 1 -- 1- Portfolio, 3 - Leitura (1 e 3 DNM), 22- Avaliacao Proficiencia
                               and gecron.gecr_bo_media IN ('S', 'N')
                               and gecronlanc.gela_bo_cancelado = 'N'
                               and edaluno.ealu_nr_cpf = '{}'
