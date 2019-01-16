@@ -465,7 +465,7 @@ def signupform(request):
                     ,'11420141A158372'
                     ,'21820141A-9430'
                     ,'11220142A-158372')
-                    
+
                         and a.alucpf = '{}'
                         and let.pelano||let.pelsem = {} """
                            ]
