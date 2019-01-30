@@ -198,13 +198,13 @@ def signupform(request):
                               --,gecron.gecr_ds as DESC_ATIVIDADE
                               --,gecron.gect_cd as TIPO_ATIVIDADE
                               --,gecronofer.gcof_dt_fim as FIM_ATIVIDADE
-                             /* ,gecronlanc.gecv_cd as CONCEITO
+                              ,gecronlanc.gecv_cd AS CONCEITO
                               ,decode(gecronlanc.gecv_cd,1,'EXCELENTE'
                                                         ,2,'MUITO BOM'
                                                         ,3,'BOM'
                                                         ,4,'SUFICIENTE'
                                                         ,5,'INSUFICIENTE'
-                                                        ,10,'SEM CONCEITO') as DESC_CONCEITO */
+                                                        ,10,'SEM CONCEITO') as DESC_CONCEITO
 
                               from geprod.gecron gecron --Pasta
                               inner join geprod.gecronofer gecronofer
