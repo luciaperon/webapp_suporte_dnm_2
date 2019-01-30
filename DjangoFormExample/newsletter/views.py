@@ -141,7 +141,7 @@ def signupform(request):
                         and a.alucpf = '{}'
                         and let.pelano||let.pelsem = {} """,
 
-                           """--- COLABORAR
+                           """--- --- COLABORAR
                               SELECT distinct replace(replace(replace(replace(edaluno.ealu_nr_cpf,'-',''),Chr(39),''),';',''),'.','') as CPF
                               ,replace(replace(replace(edaluno.ealu_ds_mail,'-',''),Chr(39),''),';','') as EMAIL
                               ,replace(replace(replace(edaluno.ealu_nm,'-',''),Chr(39),''),';','') as NOME
@@ -149,6 +149,7 @@ def signupform(request):
                               ,DECODE(edmatric.sita_cd,1,'Matricula Ativa'
                                                       ,9,'Formando'
                                                       ,27,'Matricula pré-confirmada') as SITUACAO
+
                              /* ,case
                               when hierarquia.id_unidade_negocio is null then
                               'SEM HIERARQUIA'
@@ -161,13 +162,13 @@ def signupform(request):
                               else
                               hierarquia.id_regional
                               end as REGIONAL*/
-                              ,case
+                             /* ,case
                               when hierarquia.id_campus is null then
                               'SEM HIERARQUIA'
                               else
                               hierarquia.id_campus
                               end as CAMPUS
-                              /*,case
+                              ,case
                               when cs.id_curso_studiare is null then
                               'SEM CURSO'
                               else
@@ -181,7 +182,7 @@ def signupform(request):
                               end as NOME_DISCIPLINA
                               --,'VINCULOS_UNOPAR' as SEPARA
                               --,edcurso.ecur_cd as COD_CURSO
-                              ,edcurso.ecur_nm as DESC_CURSO
+
                               ,edmodulo.modu_ds_sigla as SEMESTRE
                               ,gediscipli.gdis_cd as COD_DISC
                               ,edmatric.emat_nr_ano || edmatric.emat_tp_semestre as PERIODO
@@ -197,14 +198,13 @@ def signupform(request):
                               --,gecron.gecr_ds as DESC_ATIVIDADE
                               --,gecron.gect_cd as TIPO_ATIVIDADE
                               --,gecronofer.gcof_dt_fim as FIM_ATIVIDADE
-                              ,gecronlanc.gecv_cd as CONCEITO
+                             /* ,gecronlanc.gecv_cd as CONCEITO
                               ,decode(gecronlanc.gecv_cd,1,'EXCELENTE'
                                                         ,2,'MUITO BOM'
                                                         ,3,'BOM'
                                                         ,4,'SUFICIENTE'
                                                         ,5,'INSUFICIENTE'
-                                                        ,10,'SEM CONCEITO') as DESC_CONCEITO
-
+                                                        ,10,'SEM CONCEITO') as DESC_CONCEITO */
 
                               from geprod.gecron gecron --Pasta
                               inner join geprod.gecronofer gecronofer
@@ -271,7 +271,7 @@ def signupform(request):
                               and edmodulo.tpcs_cd = '03' -- 03-GRaduação EAD
                               and edmatric.sita_cd in ('01', '09', '27') --Situação do Aluno
                               and edcurhist.tpof_cd in ('1', '2') --Modalidade: (1-100%online | 2-Semipresencial)
-                              and upper(gediscipli.gdis_ds) like '%SEMI%'
+                             --and upper(gediscipli.gdis_ds) like '%SEMI%'
                               and edcurhist.cuhi_tp_oferta = 'R' --Oferta Regular
                               --and ednotadisc.sitd_cd = 'DS' --Situação da Matricula (DS=Disciplina da Serie)
                               --and edmatric.ealu_cd = 12892451 --Filtra Matricula
@@ -281,11 +281,11 @@ def signupform(request):
                               --and hierarquia.id_regional is not null
                               --and cs.proj_cd is not null
                               -------------- FILTROS TIME ------------------------------------------------------
-                              and gecron.gect_cd = 1 -- 1- Portfolio, 3 - Leitura (1 e 3 DNM), 22- Avaliacao Proficiencia
+                             /* and gecron.gect_cd = 1 -- 1- Portfolio, 3 - Leitura (1 e 3 DNM), 22- Avaliacao Proficiencia
                               and gecron.gecr_bo_media IN ('S', 'N')
-                              and gecronlanc.gela_bo_cancelado = 'N'
+                              and gecronlanc.gela_bo_cancelado = 'N'*/
                               and edaluno.ealu_nr_cpf = '{}'
-                              and edmatric.emat_nr_ano || edmatric.emat_tp_semestre = {} """,
+                              and edmatric.emat_nr_ano || edmatric.emat_tp_semestre = '{}'  """,
 
                            """----UNIDERP
                                            SELECT distinct replace(replace(replace(replace(pf.cpf,'-',''),Chr(39),''),';',''),'.','') as CPF
